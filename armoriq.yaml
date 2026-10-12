@@ -1,0 +1,25 @@
+version: v1
+identity:
+  api_key: ak_live_4d7e907d77f076eea90d7dc8f8812ad968f85a3012c77af5977d48db822a4c20
+  user_id: 9dc39793-82fe-40e9-8af7-cbd569a1f942
+  agent_id: circuitsentinel-agent
+environment: sandbox
+proxy:
+  url: https://proxy.armoriq.ai
+  timeout: 30
+  max_retries: 3
+mcp_servers:
+  - id: circuit
+    url: https://deal-announces-freeware-submitted.trycloudflare.com/mcp
+    description: CircuitSentinel in-memory sandbox MCP
+    auth:
+      type: bearer
+      token: $CIRCUITSENTINEL_MCP_TOKEN
+policy:
+  allow:
+    - circuit.get_component_status
+  deny:
+    - circuit.simulate_unverified_placement
+intent:
+  ttl_seconds: 300
+  require_csrg: true

@@ -1,0 +1,21 @@
+ERC report (2026-10-15T10:16:09, Encoding UTF8)
+Report includes: Errors, Warnings, Exclusions
+
+***** Sheet /
+[power_pin_not_driven]: Input Power pin not driven by any Output Power pins
+    ; error
+    @(135.89 mm, 186.69 mm): Symbol #PWR01 Pin 1 [Power input, Line]
+[power_pin_not_driven]: Input Power pin not driven by any Output Power pins
+    ; error
+    @(147.32 mm, 96.52 mm): Symbol U1 Pin 3 [V+, Power input, Line]
+[power_pin_not_driven]: Input Power pin not driven by any Output Power pins
+    ; error
+    @(147.32 mm, 111.76 mm): Symbol U1 Pin 4 [V-, Power input, Line]
+[lib_symbol_mismatch]: Symbol 'OPAMP' doesn't match copy in library 'Simulation_SPICE'
+    ; warning
+    @(149.86 mm, 104.14 mm): Symbol U1 [OPAMP]
+
+ ** ERC messages: 4  Errors 3  Warnings 1
+
+ ** Ignored checks:
+    - Global label only appears once in the schematic

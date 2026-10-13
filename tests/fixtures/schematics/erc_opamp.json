@@ -1,0 +1,65 @@
+{
+    "$schema": "https://schemas.kicad.org/erc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-10-15T10:16:09",
+    "ignored_checks": [],
+    "included_severities": ["error", "warning", "exclusion"],
+    "kicad_version": "10.0.7",
+    "sheets": [
+        {
+            "path": "/",
+            "uuid_path": "/4fe40dbe-4397-4641-b015-fdfcdde4dcee",
+            "violations": [
+                {
+                    "description": "Input Power pin not driven by any Output Power pins",
+                    "items": [
+                        {
+                            "description": "Symbol #PWR01 Pin 1 [Power input, Line]",
+                            "pos": {"x": 135.89, "y": 186.69},
+                            "uuid": "874bd6d5-87c5-465f-8dcb-6d05782ff943"
+                        }
+                    ],
+                    "severity": "error",
+                    "type": "power_pin_not_driven"
+                },
+                {
+                    "description": "Input Power pin not driven by any Output Power pins",
+                    "items": [
+                        {
+                            "description": "Symbol U1 Pin 3 [V+, Power input, Line]",
+                            "pos": {"x": 147.32, "y": 96.52},
+                            "uuid": "b806e943-f7db-4aa4-b361-84fcf68a24cd"
+                        }
+                    ],
+                    "severity": "error",
+                    "type": "power_pin_not_driven"
+                },
+                {
+                    "description": "Input Power pin not driven by any Output Power pins",
+                    "items": [
+                        {
+                            "description": "Symbol U1 Pin 4 [V-, Power input, Line]",
+                            "pos": {"x": 147.32, "y": 111.76},
+                            "uuid": "3b61bd19-04e7-402b-9026-bb56be21cd77"
+                        }
+                    ],
+                    "severity": "error",
+                    "type": "power_pin_not_driven"
+                },
+                {
+                    "description": "Symbol 'OPAMP' doesn't match copy in library 'Simulation_SPICE'",
+                    "items": [
+                        {
+                            "description": "Symbol U1 [OPAMP]",
+                            "pos": {"x": 149.86, "y": 104.14},
+                            "uuid": "aeb54d5d-91f3-41dd-8975-18f059fba4ff"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "lib_symbol_mismatch"
+                }
+            ]
+        }
+    ],
+    "source": "OPamp-comparator.kicad_sch"
+}

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Synthetic KiCad kicadxml netlist for Phase-2 connectivity tests.
+     Mirrors the documented kicad-cli kicadxml export shape (KiCad 10.x).
+     Includes explicit labels, power nets, generated Net- names, and unconnected- names. -->
+<export version="E">
+  <design>
+    <source>netlist_connectivity.kicad_sch</source>
+    <date>2026-10-16</date>
+    <tool>Eeschema 10.0.7</tool>
+  </design>
+  <components>
+    <comp ref="R1">
+      <value>10k</value>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>aaaa0001-0000-0000-0000-000000000001</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="U1">
+      <value>OPAMP</value>
+      <libsource lib="Simulation_SPICE" part="OPAMP" description="Opamp"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>bbbb0002-0000-0000-0000-000000000002</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+            <pin num="3"/>
+            <pin num="4"/>
+            <pin num="5"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="U2">
+      <!-- Multi-unit symbol: both units share reference U2; pin nums remain unique. -->
+      <value>LM358</value>
+      <libsource lib="Amplifier_Operational" part="LM358" description="Dual opamp"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>cccc0003-0000-0000-0000-000000000003</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+            <pin num="3"/>
+          </pins>
+        </unit>
+        <unit name="B">
+          <pins>
+            <pin num="5"/>
+            <pin num="6"/>
+            <pin num="7"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+  </components>
+  <nets>
+    <!-- Explicit local label (sheet-prefixed name from KiCad). -->
+    <net code="1" name="/NET_A" class="Default">
+      <node ref="R1" pin="1" pintype="passive"/>
+      <node ref="U1" pin="1" pintype="input" pinfunction="+"/>
+    </net>
+    <!-- Power / global named net. -->
+    <net code="2" name="GND" class="Default">
+      <node ref="U1" pin="4" pintype="power_in"/>
+      <node ref="U2" pin="4" pintype="power_in"/>
+    </net>
+    <!-- Explicit global label-style name. -->
+    <net code="3" name="V+" class="Default">
+      <node ref="U1" pin="3" pintype="power_in"/>
+      <node ref="U2" pin="8" pintype="power_in"/>
+    </net>
+    <!-- KiCad auto-generated unnamed net. -->
+    <net code="4" name="Net-(U1-Pad5)" class="Default">
+      <node ref="U1" pin="5" pintype="output"/>
+      <node ref="U2" pin="1" pintype="output"/>
+    </net>
+    <!-- KiCad unconnected-pin placeholder net (not an invented open). -->
+    <net code="5" name="unconnected-(U1-Pad2)" class="Default">
+      <node ref="U1" pin="2" pintype="input"/>
+    </net>
+    <!-- Second unit of multi-unit part on an explicit net. -->
+    <net code="6" name="/UNIT_B" class="Default">
+      <node ref="U2" pin="5" pintype="output"/>
+      <node ref="U2" pin="6" pintype="input"/>
+    </net>
+  </nets>
+</export>

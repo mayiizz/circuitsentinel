@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="E">
+  <design>
+    <source>/Users/btchinmayi/Projects/circuitsentinel/tests/fixtures/schematics/OPamp-comparator.kicad_sch</source>
+    <date>2026-10-16T15:43:27</date>
+    <tool>Eeschema 10.0.7</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title>OPamp, comparator</title>
+        <company>GitHub/OJStuff</company>
+        <rev/>
+        <date>2025-03-02</date>
+        <source>OPamp-comparator.kicad_sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+        <comment number="5" value=""/>
+        <comment number="6" value=""/>
+        <comment number="7" value=""/>
+        <comment number="8" value=""/>
+        <comment number="9" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="R1">
+      <value>1</value>
+      <footprint>OptoDevice:R_LDR_10x8.5mm_P7.6mm_Vertical</footprint>
+      <datasheet>http://www.elektronica-componenten.nl/WebRoot/StoreNL/Shops/61422969/54F1/BA0C/C664/31B9/2173/C0A8/2AB9/2AEF/LDR03IMP.pdf</datasheet>
+      <description>light dependent resistor</description>
+      <fields>
+        <field name="Footprint">OptoDevice:R_LDR_10x8.5mm_P7.6mm_Vertical</field>
+        <field name="Datasheet">http://www.elektronica-componenten.nl/WebRoot/StoreNL/Shops/61422969/54F1/BA0C/C664/31B9/2173/C0A8/2AB9/2AEF/LDR03IMP.pdf</field>
+        <field name="Description">light dependent resistor</field>
+      </fields>
+      <libsource lib="Sensor_Optical" part="LDR03" description="light dependent resistor"/>
+      <property name="Sheetname" value="Root"/>
+      <property name="Sheetfile" value="OPamp-comparator.kicad_sch"/>
+      <property name="ki_keywords" value="light dependent photo resistor LDR"/>
+      <property name="ki_fp_filters" value="R*LDR*10x8.5mm*P7.6mm*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>581ca603-86f0-4548-b4de-7221d2e3e6fd</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="R2">
+      <value>4.7k</value>
+      <fields>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <property name="Sheetname" value="Root"/>
+      <property name="Sheetfile" value="OPamp-comparator.kicad_sch"/>
+      <property name="ki_keywords" value="R res resistor"/>
+      <property name="ki_fp_filters" value="R_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>505103d1-99c0-4cc2-b3b1-46675cf94694</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="R3">
+      <value>4.7k</value>
+      <fields>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <property name="Sheetname" value="Root"/>
+      <property name="Sheetfile" value="OPamp-comparator.kicad_sch"/>
+      <property name="ki_keywords" value="R res resistor"/>
+      <property name="ki_fp_filters" value="R_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>a9e00df0-9845-4cf4-bea0-f531a8814d02</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="R4">
+      <value>10k</value>
+      <description>Resistor</description>
+      <fields>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description">Resistor</field>
+      </fields>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <property name="Sheetname" value="Root"/>
+      <property name="Sheetfile" value="OPamp-comparator.kicad_sch"/>
+      <property name="ki_keywords" value="R res resistor"/>
+      <property name="ki_fp_filters" value="R_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>251462b0-cd4c-4b50-a79e-0f1e512f486f</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="Rpot1">
+      <value>4.7k</value>
+      <fields>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <property name="Sheetname" value="Root"/>
+      <property name="Sheetfile" value="OPamp-comparator.kicad_sch"/>
+      <property name="ki_keywords" value="R res resistor"/>
+      <property name="ki_fp_filters" value="R_*"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>3fb9fa40-bb33-4fe9-aa82-fc5891433fa6</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="U1">
+      <value>~</value>
+      <datasheet>https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml#sec__SUBCKT_Subcircuits</datasheet>
+      <description>Operational amplifier, single</description>
+      <fields>
+        <field name="Sim.Pins">1=in+ 2=in- 3=vcc 4=vee 5=out</field>
+        <field name="Sim.Device">SUBCKT</field>
+        <field name="Sim.Library">${KICAD8_SYMBOL_DIR}/Simulation_SPICE.sp</field>
+        <field name="Sim.Name">kicad_builtin_opamp</field>
+        <field name="Footprint"/>
+        <field name="Datasheet">https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml#sec__SUBCKT_Subcircuits</field>
+        <field name="Description">Operational amplifier, single</field>
+      </fields>
+      <libsource lib="" part="OPAMP_1" description="Operational amplifier, single"/>
+      <property name="Sim.Pins" value="1=in+ 2=in- 3=vcc 4=vee 5=out"/>
+      <property name="Sim.Device" value="SUBCKT"/>
+      <property name="Sim.Library" value="${KICAD8_SYMBOL_DIR}/Simulation_SPICE.sp"/>
+      <property name="Sim.Name" value="kicad_builtin_opamp"/>
+      <property name="Sheetname" value="Root"/>
+      <property name="Sheetfile" value="OPamp-comparator.kicad_sch"/>
+      <property name="ki_keywords" value="simulation"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>aeb54d5d-91f3-41dd-8975-18f059fba4ff</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+            <pin num="3"/>
+            <pin num="4"/>
+            <pin num="5"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="V1">
+      <value>15</value>
+      <datasheet>https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml#sec_Independent_Sources_for</datasheet>
+      <description>Voltage source, DC</description>
+      <fields>
+        <field name="Sim.Pins">1=+ 2=-</field>
+        <field name="Sim.Type">DC</field>
+        <field name="Sim.Device">V</field>
+        <field name="Footprint"/>
+        <field name="Datasheet">https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml#sec_Independent_Sources_for</field>
+        <field name="Description">Voltage source, DC</field>
+      </fields>
+      <libsource lib="" part="VDC_1" description="Voltage source, DC"/>
+      <property name="Sim.Pins" value="1=+ 2=-"/>
+      <property name="Sim.Type" value="DC"/>
+      <property name="Sim.Device" value="V"/>
+      <property name="Sheetname" value="Root"/>
+      <property name="Sheetfile" value="OPamp-comparator.kicad_sch"/>
+      <property name="ki_keywords" value="simulation"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>6b61ce4c-599a-41a3-8b9f-8bc15bb92ca7</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="V2">
+      <value>-15</value>
+      <datasheet>https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml#sec_Independent_Sources_for</datasheet>
+      <description>Voltage source, DC</description>
+      <fields>
+        <field name="Sim.Pins">1=+ 2=-</field>
+        <field name="Sim.Type">DC</field>
+        <field name="Sim.Device">V</field>
+        <field name="Footprint"/>
+        <field name="Datasheet">https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml#sec_Independent_Sources_for</field>
+        <field name="Description">Voltage source, DC</field>
+      </fields>
+      <libsource lib="" part="VDC_1" description="Voltage source, DC"/>
+      <property name="Sim.Pins" value="1=+ 2=-"/>
+      <property name="Sim.Type" value="DC"/>
+      <property name="Sim.Device" value="V"/>
+      <property name="Sheetname" value="Root"/>
+      <property name="Sheetfile" value="OPamp-comparator.kicad_sch"/>
+      <property name="ki_keywords" value="simulation"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>eb80a795-d9cb-4e29-858c-9d8b37ea8f2e</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="" part="OPAMP_1">
+      <description>Operational amplifier, single</description>
+      <docs>https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml#sec__SUBCKT_Subcircuits</docs>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">${SIM.PARAMS}</field>
+        <field name="Footprint"/>
+        <field name="Datasheet">https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml#sec__SUBCKT_Subcircuits</field>
+        <field name="Description">Operational amplifier, single</field>
+        <field name="Sim.Pins">1=in+ 2=in- 3=vcc 4=vee 5=out</field>
+        <field name="Sim.Device">SUBCKT</field>
+        <field name="Sim.Library">${KICAD8_SYMBOL_DIR}/Simulation_SPICE.sp</field>
+        <field name="Sim.Name">kicad_builtin_opamp</field>
+      </fields>
+      <pins>
+        <pin num="1" name="+" type="input"/>
+        <pin num="2" name="-" type="input"/>
+        <pin num="3" name="V+" type="power_in"/>
+        <pin num="4" name="V-" type="power_in"/>
+        <pin num="5" name="" type="output"/>
+      </pins>
+    </libpart>
+    <libpart lib="" part="VDC_1">
+      <description>Voltage source, DC</description>
+      <docs>https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml#sec_Independent_Sources_for</docs>
+      <fields>
+        <field name="Reference">V</field>
+        <field name="Value">1</field>
+        <field name="Footprint"/>
+        <field name="Datasheet">https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml#sec_Independent_Sources_for</field>
+        <field name="Description">Voltage source, DC</field>
+        <field name="Sim.Pins">1=+ 2=-</field>
+        <field name="Sim.Type">DC</field>
+        <field name="Sim.Device">V</field>
+      </fields>
+      <pins>
+        <pin num="1" name="" type="passive"/>
+        <pin num="2" name="" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="R">
+      <description>Resistor</description>
+      <footprints>
+        <fp>R_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R</field>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description">Resistor</field>
+      </fields>
+      <pins>
+        <pin num="1" name="" type="passive"/>
+        <pin num="2" name="" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Sensor_Optical" part="LDR03">
+      <description>light dependent resistor</description>
+      <docs>http://www.elektronica-componenten.nl/WebRoot/StoreNL/Shops/61422969/54F1/BA0C/C664/31B9/2173/C0A8/2AB9/2AEF/LDR03IMP.pdf</docs>
+      <footprints>
+        <fp>R*LDR*10x8.5mm*P7.6mm*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">LDR03</field>
+        <field name="Footprint">OptoDevice:R_LDR_10x8.5mm_P7.6mm_Vertical</field>
+        <field name="Datasheet">http://www.elektronica-componenten.nl/WebRoot/StoreNL/Shops/61422969/54F1/BA0C/C664/31B9/2173/C0A8/2AB9/2AEF/LDR03IMP.pdf</field>
+        <field name="Description">light dependent resistor</field>
+      </fields>
+      <pins>
+        <pin num="1" name="" type="passive"/>
+        <pin num="2" name="" type="passive"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="Device">
+      <uri>${KICAD10_SYMBOL_DIR}/Device.kicad_sym</uri>
+    </library>
+    <library logical="Sensor_Optical">
+      <uri>${KICAD10_SYMBOL_DIR}/Sensor_Optical.kicad_sym</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="/Vmin" class="Default">
+      <node ref="R2" pin="2" pintype="passive"/>
+      <node ref="R3" pin="1" pintype="passive"/>
+      <node ref="U1" pin="2" pinfunction="-_2" pintype="input"/>
+    </net>
+    <net code="2" name="/Vplus" class="Default">
+      <node ref="R1" pin="1" pintype="passive"/>
+      <node ref="Rpot1" pin="2" pintype="passive"/>
+      <node ref="U1" pin="1" pinfunction="+_1" pintype="input"/>
+    </net>
+    <net code="3" name="GND" class="Default">
+      <node ref="R4" pin="2" pintype="passive"/>
+      <node ref="V1" pin="2" pintype="passive"/>
+      <node ref="V2" pin="2" pintype="passive"/>
+    </net>
+    <net code="4" name="Out" class="Default">
+      <node ref="R4" pin="1" pintype="passive"/>
+      <node ref="U1" pin="5" pintype="output"/>
+    </net>
+    <net code="5" name="V+" class="Default">
+      <node ref="R2" pin="1" pintype="passive"/>
+      <node ref="Rpot1" pin="1" pintype="passive"/>
+      <node ref="U1" pin="3" pinfunction="V+_3" pintype="power_in"/>
+      <node ref="V1" pin="1" pintype="passive"/>
+    </net>
+    <net code="6" name="V-" class="Default">
+      <node ref="R1" pin="2" pintype="passive"/>
+      <node ref="R3" pin="2" pintype="passive"/>
+      <node ref="U1" pin="4" pinfunction="V-_4" pintype="power_in"/>
+      <node ref="V2" pin="1" pintype="passive"/>
+    </net>
+  </nets>
+</export>

@@ -1,0 +1,62 @@
+5.3 Recommended Operating Conditions
+over operating ambient temperature range (unless otherwise noted)
+MIN MAX UNIT
+VS Supply voltage, VS= ([V+] – [V–])
+LM358B, LM358BA, LM2904B, 
+LM2904BA 3 36
+VLM158, LM258, LM358, LM158A, 
+LM258A, LM358A, LM2904V 3 30
+LM2904 3 26
+VCM Common-mode voltage V– V+ – 2 V
+TA Operating ambient temperature
+LM358B, LM358BA –40 85
+°C
+LM2904B, LM2904BA, LM2904, 
+LM2904V –40 125
+LM358, LM358A 0 70
+LM258, LM258A –20 85
+LM158, LM158A –55 125
+5.4 Thermal Information
+THERMAL METRIC(1)
+LM258, LM258A, LM358, LM358A, LM358B, LM358BA, LM2904, LM2904B, 
+LM2904BA, LM2904V(2) LM158, LM158A
+UNITD
+(SOIC)
+DGK
+(VSSOP)
+P
+(PDIP)
+PS
+(SO)
+PW
+(TSSOP)
+DDF
+(SOT-23)
+FK
+(LCCC)
+JG
+(CDIP)
+8 PINS 8 PINS 8 PINS 8 PINS 8 PINS 8PINS 20 PINS 8 PINS
+RθJA Junction-to-ambient thermal resistance 124.7 181.4 80.9 116.9 171.7 164.3 84.0 112.4 °C/W
+RθJC(top) Junction-to-case (top) thermal resistance 66.9 69.4 70.4 62.5 68.8 98.1 56.9 63.6 °C/W
+RθJB Junction-to-board thermal resistance 67.9 102.9 57.4 68.6 99.2 82.1 57.5 100.3 °C/W
+ψJT
+Junction-to-top 
+characterization 
+parameter
+19.2 11.8 40 21.9 11.5 11.4 51.7 35.7 °C/W
+ψJB
+Junction-to-board 
+characterization 
+parameter
+67.2 101.2 56.9 67.6 97.9 81.7 57.1 93.3 °C/W
+RθJC(bot) Junction-to-case (bottom) thermal resistance — — — — — — 10.6 22.3 °C/W
+(1) For more information about traditional and new thermal metrics, see Semiconductor and IC Package Thermal Metrics.
+(2) For a listing of which devices are available in what packages, see Section 3.
+www.ti.com
+LM158, LM158A, LM258, LM258A
+LM2904, LM2904B, LM2904BA, LM2904V
+LM358, LM358A, LM358B, LM358BA
+SLOS068AB – JUNE 1976 – REVISED OCTOBER 2024
+Copyright © 2024 Texas Instruments Incorporated Submit Document Feedback 5
+Product Folder Links: LM158 LM158A LM258 LM258A LM2904 LM2904B LM2904BA LM2904V LM358 LM358A LM358B LM358BA

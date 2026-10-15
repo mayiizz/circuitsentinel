@@ -105,7 +105,7 @@ def test_valid_bearer_token_allows_initialize() -> None:
             "params": {
                 "protocolVersion": "2024-11-05",
                 "capabilities": {},
-                "clientInfo": {"name": "armoriq-agent", "version": "1.0.0"},
+                "clientInfo": {"name": "circuitsentinel-test", "version": "1.0.0"},
             },
         },
         headers=auth_headers(TEST_TOKEN),
@@ -150,7 +150,7 @@ def test_initialize_returns_documented_handshake() -> None:
             "params": {
                 "protocolVersion": "2024-11-05",
                 "capabilities": {},
-                "clientInfo": {"name": "armoriq-agent", "version": "1.0.0"},
+                "clientInfo": {"name": "circuitsentinel-test", "version": "1.0.0"},
             },
         }
     )
@@ -168,6 +168,35 @@ def test_initialize_returns_documented_handshake() -> None:
             },
         },
     }
+
+
+def test_notifications_initialized_without_id_returns_202_empty() -> None:
+    """JSON-RPC notifications omit id and must not receive a JSON-RPC/SSE reply."""
+    response = client.post(
+        "/mcp",
+        json={"jsonrpc": "2.0", "method": "notifications/initialized"},
+        headers={"content-type": "application/json", **auth_headers()},
+    )
+
+    assert response.status_code == 202
+    assert response.content == b""
+    content_type = response.headers.get("content-type")
+    if content_type is not None:
+        assert not content_type.startswith("text/event-stream")
+    assert b"jsonrpc" not in response.content
+    assert b"error" not in response.content
+
+
+def test_notifications_initialized_without_auth_returns_401() -> None:
+    response = client.post(
+        "/mcp",
+        json={"jsonrpc": "2.0", "method": "notifications/initialized"},
+        headers={"content-type": "application/json"},
+    )
+
+    assert response.status_code == 401
+    assert response.json() == {"detail": "Unauthorized"}
+    assert response.headers.get("www-authenticate") == "Bearer"
 
 
 def test_tools_list_advertises_two_sandbox_tools() -> None:
@@ -204,8 +233,11 @@ def test_get_component_status_returns_fixed_test_record() -> None:
     assert current_placement() == before
 
 
-def test_simulate_unverified_placement_updates_memory_only() -> None:
-    _, _, first = post_rpc(
+def test_simulate_unverified_placement_refused_over_http_without_mutation() -> None:
+    """Privileged tool stays listed but is not executable via MCP HTTP."""
+    before = current_placement()
+
+    _, _, refused = post_rpc(
         {
             "jsonrpc": "2.0",
             "id": "place-1",
@@ -216,37 +248,14 @@ def test_simulate_unverified_placement_updates_memory_only() -> None:
             },
         }
     )
-    assert first is not None
-    first_state = json.loads(first["result"]["content"][0]["text"])
+    assert refused is not None
+    assert "error" in refused
+    assert refused["error"]["code"] == circuit_mcp.PRIVILEGED_TOOL_REFUSED
+    assert refused["error"]["data"]["authorization_decision"] is None
+    assert refused["error"]["data"]["trust_boundary"] == "mcp_privileged_tool_gate"
+    assert current_placement() == before
 
-    assert first_state == {
-        "label": "in-memory-test-record",
-        "reference": "R1",
-        "x_mm": 1.5,
-        "y_mm": 2.0,
-        "verified": False,
-        "sandbox": True,
-    }
-    assert current_placement() == first_state
-
-    _, _, second = post_rpc(
-        {
-            "jsonrpc": "2.0",
-            "id": "place-2",
-            "method": "tools/call",
-            "params": {
-                "name": "simulate_unverified_placement",
-                "arguments": {"reference": "R1", "x_mm": 4, "y_mm": 5},
-            },
-        }
-    )
-    assert second is not None
-    second_state = json.loads(second["result"]["content"][0]["text"])
-
-    assert second_state["x_mm"] == 4.0
-    assert second_state["y_mm"] == 5.0
-    assert second_state["verified"] is False
-    assert current_placement() == second_state
+    # Read-only allowed tool still works with the same bearer auth.
     _, _, status = post_rpc(
         {
             "jsonrpc": "2.0",
@@ -257,6 +266,17 @@ def test_simulate_unverified_placement_updates_memory_only() -> None:
     )
     assert status is not None
     assert json.loads(status["result"]["content"][0]["text"]) == FIXED_TEST_COMPONENT
+    assert current_placement() == before
+
+
+def test_simulate_handler_still_mutates_when_invoked_in_process() -> None:
+    """Internal sandbox helper remains testable; HTTP path must not reach it."""
+    state = circuit_mcp._simulate_unverified_placement(
+        {"reference": "R1", "x_mm": 1.5, "y_mm": 2}
+    )
+    assert state["reference"] == "R1"
+    assert state["x_mm"] == 1.5
+    assert current_placement() == state
 
 
 def test_unknown_method_returns_jsonrpc_error() -> None:
@@ -287,7 +307,9 @@ def test_unknown_tool_returns_jsonrpc_error() -> None:
     assert current_placement()["reference"] is None
 
 
-def test_invalid_arguments_return_jsonrpc_error() -> None:
+def test_invalid_arguments_on_privileged_tool_still_refuse_without_mutation() -> None:
+    """Trust-boundary gate runs before argument validation; sandbox stays unchanged."""
+    before = current_placement()
     _, _, missing = post_rpc(
         {
             "jsonrpc": "2.0",
@@ -313,10 +335,28 @@ def test_invalid_arguments_return_jsonrpc_error() -> None:
 
     assert missing is not None
     assert wrong_type is not None
-    assert missing["error"]["code"] == -32602
-    assert missing["error"]["message"] == "Invalid params"
-    assert wrong_type["error"]["code"] == -32602
-    assert current_placement()["reference"] is None
+    assert missing["error"]["code"] == circuit_mcp.PRIVILEGED_TOOL_REFUSED
+    assert wrong_type["error"]["code"] == circuit_mcp.PRIVILEGED_TOOL_REFUSED
+    assert current_placement() == before
+
+
+def test_invalid_arguments_on_allowed_tool_return_jsonrpc_error() -> None:
+    before = current_placement()
+    _, _, body = post_rpc(
+        {
+            "jsonrpc": "2.0",
+            "id": 9,
+            "method": "tools/call",
+            "params": {
+                "name": "get_component_status",
+                "arguments": {"unexpected": True},
+            },
+        }
+    )
+    assert body is not None
+    assert body["error"]["code"] == -32602
+    assert body["error"]["message"] == "Invalid params"
+    assert current_placement() == before
 
 
 def test_invalid_json_returns_parse_error_as_sse() -> None:

@@ -1,8 +1,10 @@
-"""Sandbox MCP endpoint in the ArmorIQ JSON-RPC SSE format.
+"""Sandbox MCP endpoint (JSON-RPC 2.0 over Server-Sent Events).
 
-The request and response shape follows the documented format at
-https://docs.armoriq.ai/sdk/mcp-directory/mcp-format/index.
-This process does not check ArmorIQ policy, tokens, or allow/block decisions.
+Trust boundary (local):
+- ``CIRCUITSENTINEL_MCP_TOKEN`` bearer auth identifies the caller to this process.
+- Bearer auth is not an authorization allow for privileged mutations.
+- Privileged mutating tools remain listed for discovery but are not executed
+  on this endpoint (fail closed). Allowed read tools still run.
 """
 
 from __future__ import annotations
@@ -16,7 +18,7 @@ from typing import Any
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse, JSONResponse, StreamingResponse
+from fastapi.responses import HTMLResponse, JSONResponse, Response, StreamingResponse
 from pydantic import BaseModel, ConfigDict, ValidationError, field_validator
 
 load_dotenv()
@@ -39,6 +41,18 @@ INVALID_REQUEST = -32600
 METHOD_NOT_FOUND = -32601
 INVALID_PARAMS = -32602
 INTERNAL_ERROR = -32603
+# Application-range code: privileged tool blocked at MCP trust boundary.
+PRIVILEGED_TOOL_REFUSED = -32010
+
+# Mutating sandbox tools. Advertised in tools/list for discovery, but not
+# executed here: bearer auth is not an authorization allow.
+PRIVILEGED_TOOLS: frozenset[str] = frozenset({"simulate_unverified_placement"})
+
+PRIVILEGED_TOOL_REFUSAL_MESSAGE = (
+    "Privileged sandbox tool cannot be executed on this MCP endpoint. "
+    "Bearer authentication identifies the caller but is not an authorization "
+    "allow. This server fails closed for privileged mutations."
+)
 
 FIXED_TEST_COMPONENT: dict[str, Any] = {
     "label": "test-component",
@@ -220,6 +234,53 @@ _TOOL_HANDLERS = {
 }
 
 
+def execute_sandbox_tool(name: str, params: dict[str, Any]) -> dict[str, Any]:
+    """Run a sandbox tool in-process for the HITL executor only.
+
+    This is **not** an MCP HTTP entrypoint. Privileged tools that are refused
+    on ``POST /mcp`` may run here after HITL approval. Effects are limited to
+    the in-memory sandbox (not KiCad schematic files).
+    """
+    if not isinstance(name, str) or not name.strip():
+        raise ValueError("tool name must be a non-empty string")
+    if not isinstance(params, dict):
+        raise ValueError("params must be an object")
+    handler = _TOOL_HANDLERS.get(name.strip())
+    if handler is None:
+        raise ValueError(f"unknown sandbox tool {name!r}")
+    result = handler(params)
+    if not isinstance(result, dict):
+        raise TypeError("sandbox tool must return an object")
+    return result
+
+
+def is_privileged_tool(name: str) -> bool:
+    """True when *name* is a mutating sandbox tool that must not run via MCP HTTP."""
+    return name in PRIVILEGED_TOOLS
+
+
+def _refuse_privileged_tool(message_id: Any, name: str) -> dict[str, Any]:
+    """Reject execution without mutating state or claiming an authorization allow."""
+    logger.warning(
+        "refused privileged tool at mcp trust boundary tool=%s",
+        _log_token(name),
+    )
+    return _error(
+        message_id,
+        PRIVILEGED_TOOL_REFUSED,
+        PRIVILEGED_TOOL_REFUSAL_MESSAGE,
+        {
+            "tool": name,
+            "trust_boundary": "mcp_privileged_tool_gate",
+            "authorization_decision": None,
+            "note": (
+                "This refusal is a local MCP fail-closed gate. "
+                "It is not an authorization allow decision."
+            ),
+        },
+    )
+
+
 def _call_tool(message_id: Any, params: object) -> dict[str, Any]:
     if not isinstance(params, dict):
         return _error(message_id, INVALID_PARAMS, "Invalid params")
@@ -229,6 +290,9 @@ def _call_tool(message_id: Any, params: object) -> dict[str, Any]:
     arguments = params.get("arguments", {})
     if not isinstance(arguments, dict):
         return _error(message_id, INVALID_PARAMS, "Invalid params")
+    if is_privileged_tool(name):
+        # Fail closed before argument handling so direct bearer callers cannot mutate.
+        return _refuse_privileged_tool(message_id, name)
     handler = _TOOL_HANDLERS.get(name)
     if handler is None:
         logger.warning("unknown tool name=%s", _log_token(name))
@@ -250,8 +314,20 @@ def _call_tool(message_id: Any, params: object) -> dict[str, Any]:
     return _tool_result(message_id, result)
 
 
+def is_initialized_notification(request_data: dict[str, Any]) -> bool:
+    """True for MCP ``notifications/initialized`` (JSON-RPC notification: no id)."""
+    return (
+        request_data.get("jsonrpc") == "2.0"
+        and request_data.get("method") == "notifications/initialized"
+        and "id" not in request_data
+    )
+
+
 def handle_jsonrpc(request_data: dict[str, Any]) -> dict[str, Any]:
-    """Dispatch one JSON-RPC request. The caller wraps the result as SSE."""
+    """Dispatch one JSON-RPC request. The caller wraps the result as SSE.
+
+    Notifications (no ``id``) must not be passed here — they have no JSON-RPC reply.
+    """
     raw_id = request_data.get("id")
     message_id = raw_id if "id" in request_data and _valid_id(raw_id) else None
     if (
@@ -314,7 +390,8 @@ app = FastAPI(
     description=(
         "In-memory hardware-design sandbox. "
         "POST /mcp speaks JSON-RPC 2.0 over Server-Sent Events. "
-        "This server does not enforce ArmorIQ policy."
+        "Bearer auth authenticates callers. Privileged mutating tools are listed "
+        "but not executed on this endpoint (local fail-closed)."
     ),
 )
 
@@ -354,10 +431,10 @@ def _extract_bearer_token(authorization: str | None) -> str | None:
 
 
 def authorize_mcp_request(request: Request) -> JSONResponse | None:
-    """Require a bearer token before any MCP dispatch. Does not enforce ArmorIQ policy.
+    """Require a bearer token before any MCP dispatch.
 
-    Returns an HTTP error response when the request must be rejected, otherwise None.
-    Never logs the token or the Authorization header.
+    Does not grant privileged-tool authorization. Returns an HTTP error when
+    the request must be rejected, otherwise None. Never logs the token.
     """
     expected = expected_mcp_token()
     if expected is None:
@@ -384,7 +461,9 @@ def authorize_mcp_request(request: Request) -> JSONResponse | None:
 
 
 @app.post("/mcp", response_model=None)
-async def mcp_endpoint(request: Request) -> StreamingResponse | JSONResponse:
+async def mcp_endpoint(
+    request: Request,
+) -> StreamingResponse | JSONResponse | Response:
     auth_error = authorize_mcp_request(request)
     if auth_error is not None:
         return auth_error
@@ -398,6 +477,11 @@ async def mcp_endpoint(request: Request) -> StreamingResponse | JSONResponse:
     if not isinstance(request_data, dict):
         logger.warning("rejected request: JSON-RPC body must be an object")
         return _sse(_error(None, INVALID_REQUEST, "Invalid Request"))
+
+    # JSON-RPC notifications omit ``id`` and must not receive a JSON-RPC reply.
+    if is_initialized_notification(request_data):
+        logger.info("jsonrpc notification method=notifications/initialized")
+        return Response(status_code=202)
 
     return _sse(handle_jsonrpc(request_data))
 

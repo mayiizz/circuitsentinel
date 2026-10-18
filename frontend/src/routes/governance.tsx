@@ -6,6 +6,7 @@ import { EmptyState } from "@/components/eda/EmptyState";
 import { ErrorState } from "@/components/eda/ErrorState";
 import { StatusBadge } from "@/components/eda/StatusBadge";
 import { AppTopBar } from "@/components/layout/AppTopBar";
+import { PageHeader } from "@/components/layout/PageHeader";
 import { Button } from "@/components/ui/button";
 import {
   approveProposal,
@@ -159,15 +160,12 @@ export function GovernancePage() {
     <>
       <AppTopBar />
       <div className="flex-1 space-y-8 overflow-auto p-4 md:p-6">
-        <section className="rounded-xl border border-line bg-panel p-4 md:p-6">
-          <h1 className="text-lg font-semibold">HITL proposals</h1>
-          <p className="mt-1 max-w-2xl text-xs text-muted-foreground">
-            Create pending proposals, then approve or reject by ID. Approval executes the
-            server-stored sandbox action only (in-memory placement — not a KiCad schematic edit).
-            The browser is not the security boundary.
-          </p>
-
-          <div className="mt-4 grid gap-4 md:grid-cols-2">
+        <PageHeader
+          title="HITL proposals"
+          description="Create pending proposals, then approve or reject by ID. Approval executes the server-stored sandbox action only (in-memory placement — not a KiCad schematic edit). The browser is not the security boundary."
+        />
+        <section className="cs-panel p-4 md:p-6">
+          <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-3 rounded-lg border border-line bg-panel-raised p-3">
               <h2 className="text-sm font-medium">Create proposal</h2>
               <label className="block text-xs text-muted-foreground">

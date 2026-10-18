@@ -2,6 +2,7 @@ import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 
 import { AppTopBar } from "@/components/layout/AppTopBar";
+import { PageHeader } from "@/components/layout/PageHeader";
 import { EmptyState } from "@/components/eda/EmptyState";
 import { FindingCard } from "@/components/eda/FindingCard";
 import { Button } from "@/components/ui/button";
@@ -101,7 +102,10 @@ function FindingsPage() {
       <AppTopBar />
       <div className="grid flex-1 gap-4 overflow-auto p-4 lg:grid-cols-[1fr_360px]">
         <div>
-          <h1 className="text-lg font-semibold">Findings</h1>
+          <PageHeader
+            title="Findings"
+            description="KiCad ERC findings from the last analysis. Missing ERC is never treated as a clean pass."
+          />
           <div className="mt-3 flex flex-wrap gap-2">
             <Input
               value={query}

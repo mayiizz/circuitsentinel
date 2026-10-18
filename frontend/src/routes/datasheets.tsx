@@ -3,6 +3,7 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import { CircuitAnalysisPanel } from "@/components/CircuitAnalysisPanel";
 import { DatasheetCheckPanel } from "@/components/DatasheetCheckPanel";
 import { AppTopBar } from "@/components/layout/AppTopBar";
+import { PageHeader } from "@/components/layout/PageHeader";
 import { EmptyState } from "@/components/eda/EmptyState";
 import { Button } from "@/components/ui/button";
 import { useWorkspace } from "@/lib/workspace";
@@ -19,14 +20,10 @@ function DatasheetsPage() {
     <>
       <AppTopBar />
       <div className="flex-1 space-y-6 overflow-auto p-4 md:p-6">
-        <div>
-          <h1 className="text-lg font-semibold">Datasheet & circuit analysis</h1>
-          <p className="mt-1 max-w-2xl text-xs text-muted-foreground">
-            Link datasheets to components, confirm supply rails, and run whole-circuit electrical
-            checks within declared scope. Outcomes never certify whole-circuit safety. Net names
-            are not voltages.
-          </p>
-        </div>
+        <PageHeader
+          title="Datasheet & circuit analysis"
+          description="Link datasheets to components, confirm supply rails, and run whole-circuit electrical checks within declared scope. Outcomes never certify whole-circuit safety. Net names are not voltages."
+        />
 
         {!analysis ? (
           <div className="rounded-xl border border-line bg-panel p-6">

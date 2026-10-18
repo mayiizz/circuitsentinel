@@ -2,6 +2,7 @@ import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 
 import { AppTopBar } from "@/components/layout/AppTopBar";
+import { PageHeader } from "@/components/layout/PageHeader";
 import { EmptyState } from "@/components/eda/EmptyState";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -57,7 +58,10 @@ function ComponentsPage() {
       <AppTopBar />
       <div className="grid flex-1 gap-4 overflow-auto p-4 lg:grid-cols-[1fr_320px]">
         <div>
-          <h1 className="text-lg font-semibold">Components</h1>
+          <PageHeader
+            title="Components"
+            description="Parsed symbols from the schematic. Datasheet parameters are never invented from reference designators."
+          />
           <Input
             className="mt-3 max-w-sm bg-panel"
             value={query}

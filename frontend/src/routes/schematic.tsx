@@ -261,8 +261,10 @@ function SchematicPage() {
                 }}
                 onDragLeave={() => setDragActive(false)}
                 onDrop={onDrop}
-                className={`rounded-xl border border-dashed px-6 py-16 text-center ${
-                  dragActive ? "border-brand bg-accent/30" : "border-line bg-panel"
+                className={`rounded-xl border border-dashed px-6 py-16 text-center transition-colors ${
+                  dragActive
+                    ? "border-brand bg-accent/30 shadow-[0_0_40px_#16C8F422]"
+                    : "border-line bg-panel hover:border-brand/40"
                 }`}
               >
                 <p className="text-sm font-semibold">Drag and drop your KiCad schematic here</p>
